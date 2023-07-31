@@ -233,20 +233,42 @@ public class DataFetcher {
 
             Player player = playerDataParser.parsePlayerData(responseBody);
 
-            player.setPlayerId(Long.parseLong(pid));
-            player.setTeamId(Long.parseLong(pInfo.teamId()));
-            player.setTeamName(pInfo.teamName());
-
             if (isAPlayerThatMeetsTheRequirements(player)) {
-                log.info(String.format("[%d] - Player %s (%d) from team %s meets the requirements!",
-                        atomicInteger.incrementAndGet(), player.getName(), player.getPlayerId(), player.getTeamName()));
+                player = getCompletePlayer(player, pid, pInfo);
                 compliantPlayers.add(player);
+                log.info(String.format("[%d] - Player %s (%d) from team %s meets the requirements!",
+                        atomicInteger.incrementAndGet(), player.name(), player.playerId(), player.teamName()));
             } else {
                 atomicInteger.incrementAndGet();
             }
         } catch (Exception e) {
             log.error("Error while checking player " + pid, e);
         }
+    }
+
+    private Player getCompletePlayer(Player player, String playerId, PlayerInfo playerInfo) {
+        return new Player(
+                player.name(),
+                Long.parseLong(playerId),
+                Long.parseLong(playerInfo.teamId()),
+                playerInfo.teamName(),
+                player.age(),
+                player.value(),
+                player.totalBalls(),
+                player.speed(),
+                player.stamina(),
+                player.playIntelligence(),
+                player.passing(),
+                player.shooting(),
+                player.heading(),
+                player.keeping(),
+                player.ballControl(),
+                player.tackling(),
+                player.aerialPassing(),
+                player.setPlays(),
+                player.experience(),
+                player.ntPos()
+        );
     }
 
     private List<String> extractTeamIdsFromXml(String xml) {

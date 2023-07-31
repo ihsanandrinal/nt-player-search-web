@@ -12,19 +12,19 @@ public class PlayerEvaluator {
     }
 
     public boolean isAPlayerThatMeetsTheRequirements(Player player) {
-        return player.getSpeed() >= playerMinSkills.speed() &&
-                player.getStamina() >= playerMinSkills.stamina() &&
-                player.getPlayIntelligence() >= playerMinSkills.playIntelligence() &&
-                player.getPassing() >= playerMinSkills.passing() &&
-                player.getShooting() >= playerMinSkills.shooting() &&
-                player.getHeading() >= playerMinSkills.heading() &&
-                player.getKeeping() >= playerMinSkills.keeping() &&
-                player.getBallControl() >= playerMinSkills.ballControl() &&
-                player.getTackling() >= playerMinSkills.tackling() &&
-                player.getAerialPassing() >= playerMinSkills.aerialPassing() &&
-                player.getSetPlays() >= playerMinSkills.setPlays() &&
-                player.getExperience() >= playerMinSkills.experience() &&
-                player.getTotalBalls() >= playerMinSkills.totalBalls();
+        return player.speed() >= playerMinSkills.speed() &&
+                player.stamina() >= playerMinSkills.stamina() &&
+                player.playIntelligence() >= playerMinSkills.playIntelligence() &&
+                player.passing() >= playerMinSkills.passing() &&
+                player.shooting() >= playerMinSkills.shooting() &&
+                player.heading() >= playerMinSkills.heading() &&
+                player.keeping() >= playerMinSkills.keeping() &&
+                player.ballControl() >= playerMinSkills.ballControl() &&
+                player.tackling() >= playerMinSkills.tackling() &&
+                player.aerialPassing() >= playerMinSkills.aerialPassing() &&
+                player.setPlays() >= playerMinSkills.setPlays() &&
+                player.experience() >= playerMinSkills.experience() &&
+                player.totalBalls() >= playerMinSkills.totalBalls();
     }
 
 }
