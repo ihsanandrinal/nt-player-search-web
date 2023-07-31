@@ -1,32 +1,25 @@
 package br.com.dv.ntplayersearch.model;
 
-import lombok.Data;
-
-@Data
-public class Player {
-    private String name;
-    private Long playerId;
-    private Long teamId;
-    private String teamName;
-    private Integer age;
-    private Long value;
-    private Integer totalBalls;
-    private Integer speed;
-    private Integer stamina;
-    private Integer playIntelligence;
-    private Integer passing;
-    private Integer shooting;
-    private Integer heading;
-    private Integer keeping;
-    private Integer ballControl;
-    private Integer tackling;
-    private Integer aerialPassing;
-    private Integer setPlays;
-    private Integer experience;
-    private String ntPos;
-
-    public String toHtml(String ball) {
-        // TODO: implement
-        return "";
-    }
+public record Player(
+        String name,
+        Long playerId,
+        Long teamId,
+        String teamName,
+        Integer age,
+        Long value,
+        Integer totalBalls,
+        Integer speed,
+        Integer stamina,
+        Integer playIntelligence,
+        Integer passing,
+        Integer shooting,
+        Integer heading,
+        Integer keeping,
+        Integer ballControl,
+        Integer tackling,
+        Integer aerialPassing,
+        Integer setPlays,
+        Integer experience,
+        String ntPos
+) {
 }
