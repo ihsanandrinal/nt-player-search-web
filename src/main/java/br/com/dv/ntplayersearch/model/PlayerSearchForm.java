@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PlayerSearchForm {
-    private String country;
+    private String countryCode;
     private String url;
     private String sessionId;
     private Integer startingLeagueId;

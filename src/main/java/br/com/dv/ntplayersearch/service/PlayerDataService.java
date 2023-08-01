@@ -49,7 +49,7 @@ public class PlayerDataService {
         PlayerEvaluator playerEvaluator = new PlayerEvaluator(form.getPlayerMinSkills());
 
         DataFetcher dataFetcher = new DataFetcher(
-                form.getCountry(),
+                form.getCountryCode(),
                 form.getUrl().replace("sub=players", "sub=search&pid="),
                 form.getSessionId(),
                 IntStream.rangeClosed(form.getStartingLeagueId(), form.getEndingLeagueId()).boxed().toList(),
