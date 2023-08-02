@@ -27,7 +27,7 @@ public class CountryCodeService {
         ObjectMapper mapper = new ObjectMapper();
         TypeReference<Map<String, String>> typeRef = new TypeReference<>() {};
         try {
-            Resource resource = resourceLoader.getResource("classpath:country_codes.json");
+            Resource resource = resourceLoader.getResource("classpath:mz_country_codes.json");
             countryCodes = mapper.readValue(resource.getInputStream(), typeRef);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read country codes from JSON", e);
