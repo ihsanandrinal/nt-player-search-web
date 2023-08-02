@@ -107,11 +107,19 @@
                 </div>
                 <div class="form-group">
                     <label for="minAge" class="form-label">Min Age:</label>
-                    <input type="number" id="minAge" th:field="*{minAge}" class="form-control-sm">
+                    <select id="minAge" th:field="*{minAge}" class="form-control-sm">
+                        <th:block th:each="age : ${#numbers.sequence(16, 100)}">
+                            <option th:value="${age}" th:text="${age}"></option>
+                        </th:block>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="maxAge" class="form-label">Max Age:</label>
-                    <input type="number" id="maxAge" th:field="*{maxAge}" class="form-control-sm">
+                    <select id="maxAge" th:field="*{maxAge}" class="form-control-sm">
+                        <th:block th:each="age : ${#numbers.sequence(16, 100)}">
+                            <option th:value="${age}" th:text="${age}"></option>
+                        </th:block>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="sessionId" class="form-label">Session ID:</label>
