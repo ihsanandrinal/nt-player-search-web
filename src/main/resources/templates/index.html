@@ -86,7 +86,12 @@
                 <h2>Parameters</h2>
                 <div class="form-group">
                     <label for="countryCode" class="form-label">Country Code:</label>
-                    <input type="text" id="countryCode" th:field="*{countryCode}" class="form-control-sm">
+                    <select id="countryCode" th:field="*{countryCode}" class="form-control-sm">
+                        <option value="">Select your country</option>
+                        <th:block th:each="entry : ${countryCodes}">
+                            <option th:value="${entry.key}" th:text="${entry.value}"></option>
+                        </th:block>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="playersTabUrl" class="form-label">Players Tab URL:</label>
