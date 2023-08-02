@@ -89,16 +89,16 @@
                     <input type="text" id="countryCode" th:field="*{countryCode}" class="form-control-sm">
                 </div>
                 <div class="form-group">
-                    <label for="sessionId" class="form-label">Session ID:</label>
-                    <input type="text" id="sessionId" th:field="*{sessionId}" class="form-control-sm">
+                    <label for="playersTabUrl" class="form-label">Players Tab URL:</label>
+                    <input type="text" id="playersTabUrl" th:field="*{playersTabUrl}" class="form-control-sm">
                 </div>
                 <div class="form-group">
-                    <label for="startingLeagueId" class="form-label">Starting League ID:</label>
-                    <input type="number" id="startingLeagueId" th:field="*{startingLeagueId}" class="form-control-sm">
+                    <label for="startingLeagueId" class="form-label">Initial League ID:</label>
+                    <input type="number" id="startingLeagueId" th:field="*{initialLeagueId}" class="form-control-sm">
                 </div>
                 <div class="form-group">
-                    <label for="endingLeagueId" class="form-label">Ending League ID:</label>
-                    <input type="number" id="endingLeagueId" th:field="*{endingLeagueId}" class="form-control-sm">
+                    <label for="endingLeagueId" class="form-label">Final League ID:</label>
+                    <input type="number" id="endingLeagueId" th:field="*{startingLeagueId}" class="form-control-sm">
                 </div>
                 <div class="form-group">
                     <label for="minAge" class="form-label">Min Age:</label>
@@ -107,6 +107,10 @@
                 <div class="form-group">
                     <label for="maxAge" class="form-label">Max Age:</label>
                     <input type="number" id="maxAge" th:field="*{maxAge}" class="form-control-sm">
+                </div>
+                <div class="form-group">
+                    <label for="sessionId" class="form-label">Session ID:</label>
+                    <input type="text" id="sessionId" th:field="*{sessionId}" class="form-control-sm">
                 </div>
                 <div class="mt-4">
                     <button type="submit" class="btn btn-secondary">Search</button>

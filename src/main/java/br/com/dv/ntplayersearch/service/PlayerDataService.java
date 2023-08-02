@@ -50,9 +50,9 @@ public class PlayerDataService {
 
         DataFetcher dataFetcher = new DataFetcher(
                 form.getCountryCode(),
-                form.getUrl().replace("sub=players", "sub=search&pid="),
+                form.getPlayersTabUrl().replace("sub=players", "sub=search&pid="),
                 form.getSessionId(),
-                IntStream.rangeClosed(form.getStartingLeagueId(), form.getEndingLeagueId()).boxed().toList(),
+                IntStream.rangeClosed(form.getInitialLeagueId(), form.getStartingLeagueId()).boxed().toList(),
                 IntStream.rangeClosed(form.getMinAge(), form.getMaxAge()).boxed().toList(),
                 playerDataParser,
                 playerEvaluator,

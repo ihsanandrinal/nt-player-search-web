@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class PlayerSearchForm {
     private String countryCode;
-    private String url;
+    private String playersTabUrl;
     private String sessionId;
+    private Integer initialLeagueId;
     private Integer startingLeagueId;
-    private Integer endingLeagueId;
     private Integer minAge;
     private Integer maxAge;
     private PlayerMinSkills playerMinSkills;
