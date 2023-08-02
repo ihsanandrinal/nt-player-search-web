@@ -8,7 +8,7 @@ public class PlayerSearchForm {
     private String playersTabUrl;
     private String sessionId;
     private Integer initialLeagueId;
-    private Integer startingLeagueId;
+    private Integer finalLeagueId;
     private Integer minAge;
     private Integer maxAge;
     private PlayerMinSkills playerMinSkills;

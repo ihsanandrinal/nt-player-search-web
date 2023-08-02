@@ -52,7 +52,7 @@ public class PlayerDataService {
                 form.getCountryCode(),
                 form.getPlayersTabUrl().replace("sub=players", "sub=search&pid="),
                 form.getSessionId(),
-                IntStream.rangeClosed(form.getInitialLeagueId(), form.getStartingLeagueId()).boxed().toList(),
+                IntStream.rangeClosed(form.getInitialLeagueId(), form.getFinalLeagueId()).boxed().toList(),
                 IntStream.rangeClosed(form.getMinAge(), form.getMaxAge()).boxed().toList(),
                 playerDataParser,
                 playerEvaluator,
