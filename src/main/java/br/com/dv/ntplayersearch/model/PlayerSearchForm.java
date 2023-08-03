@@ -11,5 +11,5 @@ public class PlayerSearchForm {
     private Integer finalLeagueId;
     private Integer minAge;
     private Integer maxAge;
-    private PlayerMinSkills playerMinSkills;
+    private PlayerMinSkills playerMinSkills = new PlayerMinSkills();
 }
