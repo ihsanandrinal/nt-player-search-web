@@ -16,14 +16,4 @@ public class AppConfig {
         return WebClient.create();
     }
 
-    @Bean
-    public DocumentBuilder documentBuilder() {
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            return dbf.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException("Error while initializing DocumentBuilder", e);
-        }
-    }
-
 }
