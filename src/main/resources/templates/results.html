@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Search Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<h1>Search Results</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Team</th>
+        <th>Total Balls</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="player : ${players}">
+        <td th:text="${player.name}"></td>
+        <td th:text="${player.playerId}"></td>
+        <td th:text="${player.teamName}"></td>
+        <td th:text="${player.totalBalls}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
