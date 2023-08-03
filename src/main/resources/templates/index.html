@@ -81,16 +81,14 @@
 <div class="container">
     <h2 class="text-center mb-5">MZ NT Player Search</h2>
     <form action="#" th:action="@{/search}" th:object="${form}" method="post">
-        <div class="row">
+        <div class="row">:
             <div class="col">
                 <h2>Parameters</h2>
                 <div class="form-group">
                     <label for="countryCode" class="form-label">Country Code:</label>
                     <select id="countryCode" th:field="*{countryCode}" class="form-control-sm">
                         <option value="">Select your country</option>
-                        <th:block th:each="entry : ${countryCodes}">
-                            <option th:value="${entry.key}" th:text="${entry.value}"></option>
-                        </th:block>
+                        <option th:each="entry : ${countryCodes}" th:value="${entry.key}" th:text="${entry.value}"></option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -108,17 +106,13 @@
                 <div class="form-group">
                     <label for="minAge" class="form-label">Min Age:</label>
                     <select id="minAge" th:field="*{minAge}" class="form-control-sm">
-                        <th:block th:each="age : ${#numbers.sequence(16, 100)}">
-                            <option th:value="${age}" th:text="${age}"></option>
-                        </th:block>
+                        <option th:each="age : ${#numbers.sequence(16, 100)}" th:value="${age}" th:text="${age}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="maxAge" class="form-label">Max Age:</label>
                     <select id="maxAge" th:field="*{maxAge}" class="form-control-sm">
-                        <th:block th:each="age : ${#numbers.sequence(16, 100)}">
-                            <option th:value="${age}" th:text="${age}"></option>
-                        </th:block>
+                        <option th:each="age : ${#numbers.sequence(16, 100)}" th:value="${age}" th:text="${age}"></option>
                     </select>
                 </div>
                 <div class="form-group">
