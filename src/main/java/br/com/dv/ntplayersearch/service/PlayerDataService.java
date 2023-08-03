@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.xml.parsers.DocumentBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,21 +25,18 @@ public class PlayerDataService {
 
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
-    private final DocumentBuilder documentBuilder;
     private final PlayerDataParser playerDataParser;
     private final Integer threadPoolSize;
 
     public PlayerDataService(
             WebClient webClient,
             ObjectMapper objectMapper,
-            DocumentBuilder documentBuilder,
             PlayerDataParser playerDataParser,
             @Value("${threadPoolSize}")
             Integer threadPoolSize
     ) {
         this.webClient = webClient;
         this.objectMapper = objectMapper;
-        this.documentBuilder = documentBuilder;
         this.playerDataParser = playerDataParser;
         this.threadPoolSize = threadPoolSize;
     }
@@ -58,7 +54,6 @@ public class PlayerDataService {
                 playerEvaluator,
                 webClient,
                 objectMapper,
-                documentBuilder,
                 threadPoolSize
         );
 

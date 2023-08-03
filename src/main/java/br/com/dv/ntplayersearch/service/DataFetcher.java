@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +38,6 @@ public class DataFetcher {
     private final PlayerEvaluator playerEvaluator;
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
-    private final DocumentBuilder db;
     private final Integer threadPoolSize;
     private final List<Player> compliantPlayers;
     private final AtomicInteger atomicInteger;
@@ -52,7 +52,6 @@ public class DataFetcher {
             PlayerEvaluator playerEvaluator,
             WebClient webClient,
             ObjectMapper objectMapper,
-            DocumentBuilder db,
             Integer threadPoolSize
     ) {
         this.country = country;
@@ -64,7 +63,6 @@ public class DataFetcher {
         this.playerEvaluator = playerEvaluator;
         this.webClient = webClient;
         this.objectMapper = objectMapper;
-        this.db = db;
         this.threadPoolSize = threadPoolSize;
         this.compliantPlayers = new CopyOnWriteArrayList<>();
         this.atomicInteger = new AtomicInteger(0);
@@ -274,7 +272,10 @@ public class DataFetcher {
     private List<String> extractTeamIdsFromXml(String xml) {
         List<String> teamIds = new ArrayList<>();
 
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db;
         try {
+            db = dbf.newDocumentBuilder();
             Document doc = db.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
             doc.getDocumentElement().normalize();
 
@@ -297,7 +298,10 @@ public class DataFetcher {
     private Map<String, PlayerInfo> extractPlayersFromXml(String xml, String country, List<Integer> ageRange) {
         Map<String, PlayerInfo> playerTeamMap = new ConcurrentHashMap<>();
 
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db;
         try {
+            db = dbf.newDocumentBuilder();
             Document doc = db.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
             doc.getDocumentElement().normalize();
 
