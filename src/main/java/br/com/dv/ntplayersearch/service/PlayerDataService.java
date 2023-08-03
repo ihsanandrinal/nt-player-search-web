@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -78,7 +79,10 @@ public class PlayerDataService {
         }
         executor.shutdown();
 
-        return dataFetcher.getCompliantPlayers();
+        return dataFetcher.getCompliantPlayers()
+                .stream()
+                .sorted(Comparator.comparing(Player::totalBalls).reversed())
+                .toList();
     }
 
 }
