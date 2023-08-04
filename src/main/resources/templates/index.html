@@ -86,7 +86,7 @@
                 <h2>Parameters</h2>
                 <div class="form-group">
                     <label for="country" class="form-label">Country:</label>
-                    <select id="country" th:field="*{country}" class="form-control-sm">
+                    <select id="country" th:field="*{countryCode}" class="form-control-sm">
                         <option value="">Select your country</option>
                         <option th:each="entry : ${countryCodes}" th:value="${entry.key}" th:text="${entry.value}"></option>
                     </select>
