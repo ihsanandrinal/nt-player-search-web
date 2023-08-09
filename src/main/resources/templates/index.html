@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>NT Player Search</title>
+    <title>NT Player Search - Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
@@ -9,9 +9,9 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background: #202A44;
-            background-size: 200% 200%;
-            animation: gradient 5s ease infinite;
+            background: linear-gradient(-45deg, #003366, #BC2A4D, #003366, #BC2A4D);
+            background-size: 400% 400%;
+            animation: gradient 30s ease infinite;
             margin: 0;
             padding: 0;
             display: flex;
@@ -88,7 +88,8 @@
                     <label for="country" class="form-label">Country:</label>
                     <select id="country" th:field="*{countryCode}" class="form-control-sm">
                         <option value="">Select your country</option>
-                        <option th:each="entry : ${countryCodes}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                        <option th:each="entry : ${countryCodes}" th:value="${entry.key}"
+                                th:text="${entry.value}"></option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -106,13 +107,15 @@
                 <div class="form-group">
                     <label for="minAge" class="form-label">Min Age:</label>
                     <select id="minAge" th:field="*{minAge}" class="form-control-sm">
-                        <option th:each="age : ${#numbers.sequence(16, 100)}" th:value="${age}" th:text="${age}"></option>
+                        <option th:each="age : ${#numbers.sequence(16, 100)}" th:value="${age}"
+                                th:text="${age}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="maxAge" class="form-label">Max Age:</label>
                     <select id="maxAge" th:field="*{maxAge}" class="form-control-sm">
-                        <option th:each="age : ${#numbers.sequence(16, 100)}" th:value="${age}" th:text="${age}"></option>
+                        <option th:each="age : ${#numbers.sequence(16, 100)}" th:value="${age}"
+                                th:text="${age}"></option>
                     </select>
                 </div>
                 <div class="form-group">

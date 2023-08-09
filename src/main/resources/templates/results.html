@@ -1,38 +1,363 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search Results</title>
+    <title>NT Player Search - Results</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        body {
+            background-color: #101522;
+            color: #a9a9a9;
+            font-family: "Montserrat", sans-serif;
+            margin: 20px;
         }
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
+
+        #players-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .player-card {
+            box-sizing: border-box;
+            width: 27%;
+            background-color: #101522;
+            border: 2px solid #ff5733;
+            padding: 15px;
+            color: #a9a9a9;
+            line-height: 1.5;
+            border-radius: 10px;
+            margin: 0.5%;
+        }
+
+        .player-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .results-title {
+            font-family: "Montserrat", sans-serif;
+            font-size: 24px;
+            background-color: #101522;
+            color: #ff5733;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .player-attribute {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .attribute-label {
+            width: 200px;
+        }
+
+        .attribute-value {
+            display: flex;
+            align-items: center;
+        }
+
+        .attribute-count {
+            padding-left: 10px;
+        }
+
+        img {
+            width: 12px;
+            height: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .attribute-label {
+            width: auto;
+        }
+
+        .attribute-value {
+            justify-content: flex-start;
+        }
+
+        .attribute-label-container {
+            width: 150px;
+            display: flex;
+            align-items: center;
+        }
+
+        .attribute-value-container {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .home-link-container {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .home-link {
+            color: #ff5733;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .home-link:hover {
+            color: #ff8f5a;
         }
     </style>
 </head>
 <body>
-<h1>Search Results</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>ID</th>
-        <th>Team</th>
-        <th>Total Balls</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="player : ${players}">
-        <td th:text="${player.name}"></td>
-        <td th:text="${player.playerId}"></td>
-        <td th:text="${player.teamName}"></td>
-        <td th:text="${player.totalBalls}"></td>
-    </tr>
-    </tbody>
-</table>
+<h1 class="results-title">Search Results</h1>
+<div id="players-container">
+    <div class="player-card" th:each="player : ${players}">
+        <div
+                class="player-title"
+                th:text="${player.name} + ' (' + ${player.playerId} + ')'"
+        ></div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Team:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span class="attribute-value" th:text="${player.teamName}"></span
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Age:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span class="attribute-value" th:text="${player.age}"></span
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Value:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:text="${player.value} + ' ￦'"
+            ></span
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Total Balls:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span class="attribute-value" th:text="${player.totalBalls}"></span
+            ></span>
+        </div>
+        <br/>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Speed:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.speed)}"
+                    th:if="${player.speed &gt; 0}"
+            >
+              <img alt="Speed" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.speed} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Stamina:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.stamina)}"
+                    th:if="${player.stamina &gt; 0}"
+            >
+              <img alt="Stamina" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.stamina} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Play Intelligence:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.playIntelligence)}"
+                    th:if="${player.playIntelligence &gt; 0}"
+            >
+              <img alt="Play Intelligence" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.playIntelligence} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Passing:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.passing)}"
+                    th:if="${player.passing &gt; 0}"
+            >
+              <img alt="Passing" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.passing} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Shooting:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.shooting)}"
+                    th:if="${player.shooting &gt; 0}"
+            >
+              <img alt="Shooting" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.shooting} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Heading:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.heading)}"
+                    th:if="${player.heading &gt; 0}"
+            >
+              <img alt="Heading" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.heading} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Keeping:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.keeping)}"
+                    th:if="${player.keeping &gt; 0}"
+            >
+              <img alt="Keeping" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.keeping} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Ball Control:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.ballControl)}"
+                    th:if="${player.ballControl &gt; 0}"
+            >
+              <img alt="Ball Control" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.ballControl} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Tackling:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.tackling)}"
+                    th:if="${player.tackling &gt; 0}"
+            >
+              <img alt="Tackling" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.tackling} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Aerial Passing:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.aerialPassing)}"
+                    th:if="${player.aerialPassing &gt; 0}"
+            >
+              <img alt="Aerial Passing" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.aerialPassing} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Set Plays:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.setPlays)}"
+                    th:if="${player.setPlays &gt; 0}"
+            >
+              <img alt="Set Plays" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.setPlays} + ')'"
+            ></span>
+        </div>
+        <div class="player-attribute">
+          <span class="attribute-label-container"
+          ><span class="attribute-label">Experience:</span></span
+          >
+            <span class="attribute-value-container"
+            ><span
+                    class="attribute-value"
+                    th:each="i: ${#numbers.sequence(1, player.experience)}"
+                    th:if="${player.experience &gt; 0}"
+            >
+              <img alt="Experience" src="/ball.gif"/> </span
+            ></span>
+            <span
+                    class="attribute-count"
+                    th:text="'(' + ${player.experience} + ')'"
+            ></span>
+        </div>
+    </div>
+</div>
+<div class="home-link-container">
+    <a href="/" class="home-link">Go back to home page</a>
+</div>
 </body>
 </html>
