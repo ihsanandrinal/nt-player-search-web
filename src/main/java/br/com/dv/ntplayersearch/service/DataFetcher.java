@@ -41,6 +41,8 @@ public class DataFetcher {
     private final Integer threadPoolSize;
     private final List<Player> compliantPlayers;
     private final AtomicInteger atomicInteger;
+    private final String searchId;
+    private final SearchService searchService;
 
     public DataFetcher(
             String country,
@@ -52,7 +54,9 @@ public class DataFetcher {
             PlayerEvaluator playerEvaluator,
             WebClient webClient,
             ObjectMapper objectMapper,
-            Integer threadPoolSize
+            Integer threadPoolSize,
+            String searchId,
+            SearchService searchService
     ) {
         this.country = country;
         this.url = url;
@@ -66,6 +70,8 @@ public class DataFetcher {
         this.threadPoolSize = threadPoolSize;
         this.compliantPlayers = new CopyOnWriteArrayList<>();
         this.atomicInteger = new AtomicInteger(0);
+        this.searchId = searchId;
+        this.searchService = searchService;
     }
 
     public List<String> getTeamIds() {
@@ -73,12 +79,12 @@ public class DataFetcher {
 
         getTeamIdsFromHomeCountrySeniorLeagues(teamIds);
 
-        // No reason to check teams from other countries if the players are under 18
+        // (No reason to check teams from other countries if the players are under 18)
         if (ages.get(ages.size() - 1) > 18) {
             getAdditionalTeamIdsFromTopTeams(teamIds, "senior_teams.json");
             getAdditionalTeamIdsFromTopTeams(teamIds, "uxx_teams.json");
-            getAdditionalTeamIdsFromMzLive(teamIds, "Senior", "players");
-            getAdditionalTeamIdsFromMzLive(teamIds, "Senior", "teams");
+            getAdditionalTeamIdsFromMzLive(teamIds, "senior", "players");
+            getAdditionalTeamIdsFromMzLive(teamIds, "senior", "teams");
             getAdditionalTeamIdsFromMzLive(teamIds, "U18", "players");
             getAdditionalTeamIdsFromMzLive(teamIds, "U18", "teams");
             getAdditionalTeamIdsFromMzLive(teamIds, "U21", "players");
@@ -91,14 +97,14 @@ public class DataFetcher {
     }
 
     private void getTeamIdsFromHomeCountrySeniorLeagues(Set<String> teamIds) {
-        log.info("Getting own country senior leagues team ids…");
+        searchService.appendLog(searchId, "Getting own country senior leagues team ids…");
 
         ExecutorService executor = Executors.newFixedThreadPool(threadPoolSize);
 
         for (Integer leagueId : homeCountryLeagueIds) {
             executor.submit(() -> {
                 try {
-                    log.info("Getting team ids from league " + leagueId);
+                    searchService.appendLog(searchId, "Getting team ids from league " + leagueId);
 
                     String url = "https://www.managerzone.com/xml/team_league.php?sport_id=1&league_id=" + leagueId;
                     String response = webClient.get()
@@ -127,7 +133,8 @@ public class DataFetcher {
     }
 
     private void getAdditionalTeamIdsFromTopTeams(Set<String> teamIds, String fileName) {
-        log.info("Getting additional team ids from top " + fileName.split("teams")[0] + " teams…");
+        searchService.appendLog(searchId,
+                "Getting additional team ids from top " + fileName.split("_teams")[0] + " teams…");
 
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
 
@@ -144,7 +151,8 @@ public class DataFetcher {
     }
 
     private void getAdditionalTeamIdsFromMzLive(Set<String> teamIds, String ageGroup, String mode) {
-        log.info("Getting additional team ids from most valuable " + ageGroup + " " + mode + " (MZ Live)…");
+        searchService.appendLog(searchId,
+                "Getting additional team ids from most valuable " + ageGroup + " " + mode + " (MZ Live)…");
 
         String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=" + mode + "&country=" + country;
 
@@ -180,7 +188,7 @@ public class DataFetcher {
     }
 
     public Map<String, PlayerInfo> getPlayersFromTeamIds(List<String> teamIds) {
-        log.info("Trying to find players in " + teamIds.size() + " teams…");
+        searchService.appendLog(searchId, "Trying to find players in " + teamIds.size() + " teams…");
 
         Map<String, PlayerInfo> playerTeamMap = new ConcurrentHashMap<>();
 
@@ -189,7 +197,7 @@ public class DataFetcher {
         for (String teamId : teamIds) {
             executor.submit(() -> {
                 try {
-                    log.info("Checking team " + teamId);
+                    searchService.appendLog(searchId, "Checking team " + teamId);
 
                     String url = "https://www.managerzone.com/xml/team_playerlist.php?sport_id=1&team_id=" + teamId;
                     String xmlContent = webClient.get()
@@ -216,7 +224,8 @@ public class DataFetcher {
             log.error("Executor was interrupted.", e);
         }
 
-        log.info(playerTeamMap.size() + " players were found and will be checked…");
+        searchService.appendLog(searchId, playerTeamMap.size() + " players were found and will be checked…");
+
         return playerTeamMap;
     }
 
@@ -234,8 +243,13 @@ public class DataFetcher {
             if (isAPlayerThatMeetsTheRequirements(player)) {
                 player = getCompletePlayer(player, pid, pInfo);
                 compliantPlayers.add(player);
-                log.info(String.format("[%d] - Player %s (%d) from team %s meets the requirements!",
-                        atomicInteger.incrementAndGet(), player.name(), player.playerId(), player.teamName()));
+                searchService.appendLog(
+                        searchId,
+                        String.format(
+                                "[%d] - Player %s (%d) from team %s meets the requirements!",
+                                atomicInteger.incrementAndGet(), player.name(), player.playerId(), player.teamName()
+                        )
+                );
             } else {
                 atomicInteger.incrementAndGet();
             }

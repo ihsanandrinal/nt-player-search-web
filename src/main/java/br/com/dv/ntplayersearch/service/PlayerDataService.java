@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,21 +25,25 @@ public class PlayerDataService {
     private final ObjectMapper objectMapper;
     private final PlayerDataParser playerDataParser;
     private final Integer threadPoolSize;
+    private final SearchService searchService;
 
     public PlayerDataService(
             WebClient webClient,
             ObjectMapper objectMapper,
             PlayerDataParser playerDataParser,
-            @Value("${threadPoolSize}")
-            Integer threadPoolSize
+            @Value("${threadPoolSize}") Integer threadPoolSize,
+            SearchService searchService
     ) {
         this.webClient = webClient;
         this.objectMapper = objectMapper;
         this.playerDataParser = playerDataParser;
         this.threadPoolSize = threadPoolSize;
+        this.searchService = searchService;
     }
 
-    public List<Player> getPlayers(PlayerSearchForm form) {
+    public void getPlayers(PlayerSearchForm form, String searchId) {
+        searchService.appendLog(searchId, "Starting search");
+
         PlayerEvaluator playerEvaluator = new PlayerEvaluator(form.getPlayerMinSkills());
 
         DataFetcher dataFetcher = new DataFetcher(
@@ -55,7 +56,9 @@ public class PlayerDataService {
                 playerEvaluator,
                 webClient,
                 objectMapper,
-                threadPoolSize
+                threadPoolSize,
+                searchId,
+                searchService
         );
 
         List<String> allTeamIds = dataFetcher.getTeamIds();
@@ -79,10 +82,14 @@ public class PlayerDataService {
         }
         executor.shutdown();
 
-        return dataFetcher.getCompliantPlayers()
+        var results = dataFetcher.getCompliantPlayers()
                 .stream()
                 .sorted(Comparator.comparing(Player::totalBalls).reversed())
                 .toList();
+
+        searchService.appendLog(searchId, "Done!");
+        searchService.storeResults(searchId, results);
+        searchService.setSearchStatus(searchId, true);
     }
 
 }
