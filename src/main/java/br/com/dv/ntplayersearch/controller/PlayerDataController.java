@@ -5,12 +5,13 @@ import br.com.dv.ntplayersearch.model.PlayerSearchForm;
 import br.com.dv.ntplayersearch.service.CountryCodeService;
 import br.com.dv.ntplayersearch.service.PlayerDataService;
 import br.com.dv.ntplayersearch.service.SearchService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,8 +44,13 @@ public class PlayerDataController {
     }
 
     @PostMapping("/search")
-    public RedirectView search(PlayerSearchForm form) {
+    public String search(@Valid @ModelAttribute("form") PlayerSearchForm form, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
         String searchId = UUID.randomUUID().toString();
+
         CompletableFuture.runAsync(() -> {
             try {
                 playerDataService.getPlayers(form, searchId);
@@ -52,7 +58,8 @@ public class PlayerDataController {
                 log.error("Error while searching players", e);
             }
         });
-        return new RedirectView("/progress/" + searchId);
+
+        return "redirect:/progress/" + searchId;
     }
 
     @GetMapping("/progress/{searchId}")
