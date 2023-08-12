@@ -1,0 +1,602 @@
+[
+  {
+    "code": "AL",
+    "name": "Albania",
+    "cid": 45,
+    "ntid": 1043509
+  },
+  {
+    "code": "DZ",
+    "name": "Algeria",
+    "cid": 52,
+    "ntid": 1043510
+  },
+  {
+    "code": "AD",
+    "name": "Andorra",
+    "cid": 46,
+    "ntid": 1043511
+  },
+  {
+    "code": "AO",
+    "name": "Angola",
+    "cid": 64,
+    "ntid": 1043512
+  },
+  {
+    "code": "AR",
+    "name": "Argentina",
+    "cid": 240,
+    "ntid": 1043513
+  },
+  {
+    "code": "AU",
+    "name": "Australia",
+    "cid": 246,
+    "ntid": 1043514
+  },
+  {
+    "code": "AT",
+    "name": "Austria",
+    "cid": 242,
+    "ntid": 1043515
+  },
+  {
+    "code": "AZ",
+    "name": "Azerbaijan",
+    "cid": 54,
+    "ntid": 1043516
+  },
+  {
+    "code": "BD",
+    "name": "Bangladesh",
+    "cid": 67,
+    "ntid": 1043517
+  },
+  {
+    "code": "BY",
+    "name": "Belarus",
+    "cid": 34,
+    "ntid": 1043518
+  },
+  {
+    "code": "BE",
+    "name": "Belgium",
+    "cid": 237,
+    "ntid": 1043519
+  },
+  {
+    "code": "BO",
+    "name": "Bolivia",
+    "cid": 6,
+    "ntid": 1043520
+  },
+  {
+    "code": "BA",
+    "name": "Bosnia and Herzegovina",
+    "cid": 25,
+    "ntid": 1043521
+  },
+  {
+    "code": "BR",
+    "name": "Brazil",
+    "cid": 1,
+    "ntid": 1043522
+  },
+  {
+    "code": "BG",
+    "name": "Bulgaria",
+    "cid": 11,
+    "ntid": 1043523
+  },
+  {
+    "code": "CA",
+    "name": "Canada",
+    "cid": 239,
+    "ntid": 1043524
+  },
+  {
+    "code": "CL",
+    "name": "Chile",
+    "cid": 15,
+    "ntid": 1043525
+  },
+  {
+    "code": "CN",
+    "name": "China",
+    "cid": 21,
+    "ntid": 1043526
+  },
+  {
+    "code": "CO",
+    "name": "Colombia",
+    "cid": 17,
+    "ntid": 1043527
+  },
+  {
+    "code": "CR",
+    "name": "Costa Rica",
+    "cid": 37,
+    "ntid": 1043528
+  },
+  {
+    "code": "HR",
+    "name": "Croatia",
+    "cid": 24,
+    "ntid": 1043529
+  },
+  {
+    "code": "CY",
+    "name": "Cyprus",
+    "cid": 32,
+    "ntid": 1043530
+  },
+  {
+    "code": "CZ",
+    "name": "Czech Republic",
+    "cid": 3,
+    "ntid": 1043531
+  },
+  {
+    "code": "DK",
+    "name": "Denmark",
+    "cid": 231,
+    "ntid": 1043532
+  },
+  {
+    "code": "DO",
+    "name": "Dominican Republic",
+    "cid": 49,
+    "ntid": 1043533
+  },
+  {
+    "code": "EC",
+    "name": "Ecuador",
+    "cid": 13,
+    "ntid": 1043534
+  },
+  {
+    "code": "EG",
+    "name": "Egypt",
+    "cid": 12,
+    "ntid": 1043535
+  },
+  {
+    "code": "SV",
+    "name": "El Salvador",
+    "cid": 55,
+    "ntid": 1043536
+  },
+  {
+    "code": "EN",
+    "name": "England",
+    "cid": 224,
+    "ntid": 1043537
+  },
+  {
+    "code": "EE",
+    "name": "Estonia",
+    "cid": 252,
+    "ntid": 1043538
+  },
+  {
+    "code": "FO",
+    "name": "Faroe Islands",
+    "cid": 31,
+    "ntid": 1043539
+  },
+  {
+    "code": "FI",
+    "name": "Finland",
+    "cid": 229,
+    "ntid": 1043540
+  },
+  {
+    "code": "FR",
+    "name": "France",
+    "cid": 228,
+    "ntid": 1043541
+  },
+  {
+    "code": "GE",
+    "name": "Georgia",
+    "cid": 58,
+    "ntid": 1043543
+  },
+  {
+    "code": "DE",
+    "name": "Germany",
+    "cid": 230,
+    "ntid": 1043544
+  },
+  {
+    "code": "GR",
+    "name": "Greece",
+    "cid": 232,
+    "ntid": 1043545
+  },
+  {
+    "code": "GT",
+    "name": "Guatemala",
+    "cid": 44,
+    "ntid": 1043546
+  },
+  {
+    "code": "HN",
+    "name": "Honduras",
+    "cid": 57,
+    "ntid": 1043547
+  },
+  {
+    "code": "HU",
+    "name": "Hungary",
+    "cid": 245,
+    "ntid": 1043548
+  },
+  {
+    "code": "IS",
+    "name": "Iceland",
+    "cid": 10,
+    "ntid": 1043549
+  },
+  {
+    "code": "IN",
+    "name": "India",
+    "cid": 39,
+    "ntid": 1043550
+  },
+  {
+    "code": "ID",
+    "name": "Indonesia",
+    "cid": 251,
+    "ntid": 1043551
+  },
+  {
+    "code": "IR",
+    "name": "Iran",
+    "cid": 41,
+    "ntid": 1043552
+  },
+  {
+    "code": "IE",
+    "name": "Ireland",
+    "cid": 249,
+    "ntid": 1043553
+  },
+  {
+    "code": "IL",
+    "name": "Israel",
+    "cid": 2,
+    "ntid": 1043554
+  },
+  {
+    "code": "IT",
+    "name": "Italy",
+    "cid": 226,
+    "ntid": 1043555
+  },
+  {
+    "code": "JO",
+    "name": "Jordan",
+    "cid": 59,
+    "ntid": 1043556
+  },
+  {
+    "code": "KZ",
+    "name": "Kazakhstan",
+    "cid": 51,
+    "ntid": 1043557
+  },
+  {
+    "code": "KE",
+    "name": "Kenya",
+    "cid": 62,
+    "ntid": 1043558
+  },
+  {
+    "code": "KW",
+    "name": "Kuwait",
+    "cid": 61,
+    "ntid": 1043559
+  },
+  {
+    "code": "KG",
+    "name": "Kyrgyzstan",
+    "cid": 53,
+    "ntid": 1043560
+  },
+  {
+    "code": "LV",
+    "name": "Latvia",
+    "cid": 250,
+    "ntid": 1043561
+  },
+  {
+    "code": "LB",
+    "name": "Lebanon",
+    "cid": 68,
+    "ntid": 1043562
+  },
+  {
+    "code": "LI",
+    "name": "Liechtenstein",
+    "cid": 42,
+    "ntid": 1043563
+  },
+  {
+    "code": "LT",
+    "name": "Lithuania",
+    "cid": 5,
+    "ntid": 1043564
+  },
+  {
+    "code": "LU",
+    "name": "Luxembourg",
+    "cid": 38,
+    "ntid": 1043565
+  },
+  {
+    "code": "DC",
+    "name": "MZ Country",
+    "cid": 20,
+    "ntid": 1043572
+  },
+  {
+    "code": "MK",
+    "name": "Macedonia",
+    "cid": 33,
+    "ntid": 1043542
+  },
+  {
+    "code": "MY",
+    "name": "Malaysia",
+    "cid": 27,
+    "ntid": 1043566
+  },
+  {
+    "code": "MT",
+    "name": "Malta",
+    "cid": 30,
+    "ntid": 1043567
+  },
+  {
+    "code": "MX",
+    "name": "Mexico",
+    "cid": 4,
+    "ntid": 1043568
+  },
+  {
+    "code": "MD",
+    "name": "Moldova",
+    "cid": 35,
+    "ntid": 1043569
+  },
+  {
+    "code": "ME",
+    "name": "Montenegro",
+    "cid": 70,
+    "ntid": 1043570
+  },
+  {
+    "code": "MA",
+    "name": "Morocco",
+    "cid": 43,
+    "ntid": 1043571
+  },
+  {
+    "code": "NL",
+    "name": "Netherlands",
+    "cid": 236,
+    "ntid": 1043573
+  },
+  {
+    "code": "NG",
+    "name": "Nigeria",
+    "cid": 63,
+    "ntid": 1043574
+  },
+  {
+    "code": "NI",
+    "name": "Northern Ireland",
+    "cid": 69,
+    "ntid": 1043575
+  },
+  {
+    "code": "NO",
+    "name": "Norway",
+    "cid": 234,
+    "ntid": 1043576
+  },
+  {
+    "code": "PK",
+    "name": "Pakistan",
+    "cid": 56,
+    "ntid": 1043577
+  },
+  {
+    "code": "PA",
+    "name": "Panama",
+    "cid": 29,
+    "ntid": 1043578
+  },
+  {
+    "code": "PY",
+    "name": "Paraguay",
+    "cid": 7,
+    "ntid": 1043579
+  },
+  {
+    "code": "PE",
+    "name": "Peru",
+    "cid": 16,
+    "ntid": 1043580
+  },
+  {
+    "code": "PH",
+    "name": "Philippines",
+    "cid": 40,
+    "ntid": 1043581
+  },
+  {
+    "code": "PL",
+    "name": "Poland",
+    "cid": 233,
+    "ntid": 1043582
+  },
+  {
+    "code": "PT",
+    "name": "Portugal",
+    "cid": 243,
+    "ntid": 1043583
+  },
+  {
+    "code": "RO",
+    "name": "Romania",
+    "cid": 247,
+    "ntid": 1043584
+  },
+  {
+    "code": "RU",
+    "name": "Russia",
+    "cid": 9,
+    "ntid": 1043585
+  },
+  {
+    "code": "SA",
+    "name": "Saudi Arabia",
+    "cid": 60,
+    "ntid": 1043586
+  },
+  {
+    "code": "SC",
+    "name": "Scotland",
+    "cid": 254,
+    "ntid": 1043587
+  },
+  {
+    "code": "SN",
+    "name": "Senegal",
+    "cid": 66,
+    "ntid": 1043588
+  },
+  {
+    "code": "RS",
+    "name": "Serbia",
+    "cid": 71,
+    "ntid": 1043589
+  },
+  {
+    "code": "SG",
+    "name": "Singapore",
+    "cid": 28,
+    "ntid": 1043590
+  },
+  {
+    "code": "SK",
+    "name": "Slovakia",
+    "cid": 23,
+    "ntid": 1043591
+  },
+  {
+    "code": "SI",
+    "name": "Slovenia",
+    "cid": 22,
+    "ntid": 1043592
+  },
+  {
+    "code": "ZA",
+    "name": "South Africa",
+    "cid": 18,
+    "ntid": 1043593
+  },
+  {
+    "code": "KR",
+    "name": "South Korea",
+    "cid": 48,
+    "ntid": 1043594
+  },
+  {
+    "code": "ES",
+    "name": "Spain",
+    "cid": 227,
+    "ntid": 1043595
+  },
+  {
+    "code": "SE",
+    "name": "Sweden",
+    "cid": 205,
+    "ntid": 1043596
+  },
+  {
+    "code": "CH",
+    "name": "Switzerland",
+    "cid": 235,
+    "ntid": 1043597
+  },
+  {
+    "code": "TH",
+    "name": "Thailand",
+    "cid": 19,
+    "ntid": 1043598
+  },
+  {
+    "code": "TT",
+    "name": "Trinidad & Tobago",
+    "cid": 65,
+    "ntid": 1043599
+  },
+  {
+    "code": "TN",
+    "name": "Tunisia",
+    "cid": 50,
+    "ntid": 1043600
+  },
+  {
+    "code": "TR",
+    "name": "Turkey",
+    "cid": 253,
+    "ntid": 1043601
+  },
+  {
+    "code": "UA",
+    "name": "Ukraine",
+    "cid": 26,
+    "ntid": 1043602
+  },
+  {
+    "code": "AE",
+    "name": "United Arab Emirates",
+    "cid": 47,
+    "ntid": 1043603
+  },
+  {
+    "code": "US",
+    "name": "United States",
+    "cid": 225,
+    "ntid": 1043604
+  },
+  {
+    "code": "UY",
+    "name": "Uruguay",
+    "cid": 8,
+    "ntid": 1043605
+  },
+  {
+    "code": "VE",
+    "name": "Venezuela",
+    "cid": 14,
+    "ntid": 1043606
+  },
+  {
+    "code": "VN",
+    "name": "Vietnam",
+    "cid": 36,
+    "ntid": 1043607
+  },
+  {
+    "code": "WL",
+    "name": "Wales",
+    "cid": 248,
+    "ntid": 1043608
+  }
+]
