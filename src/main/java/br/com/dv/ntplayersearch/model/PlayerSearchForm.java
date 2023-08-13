@@ -9,13 +9,7 @@ import lombok.Data;
 public class PlayerSearchForm {
 
     @NotBlank(message = "Please select a country.")
-    private String countryCode;
-
-    @Pattern(
-            regexp = "https://www\\.managerzone\\.com/ajax\\.php\\?p=nationalTeams&sub=players&ntid=\\d+&cid=\\d+&type=national_team(_u21)?&sport=soccer",
-            message = "Invalid Players Tab URL format."
-    )
-    private String playersTabUrl;
+    private String country;
 
     @NotNull(message = "Initial League ID is required.")
     private Integer initialLeagueId;
