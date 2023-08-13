@@ -50,7 +50,6 @@ public class PlayerDataService {
                 request.form().getCountry(),
                 request.selectedCountry().ntid(),
                 request.selectedCountry().cid(),
-                IntStream.rangeClosed(request.form().getInitialLeagueId(), request.form().getFinalLeagueId()).boxed().toList(),
                 IntStream.rangeClosed(request.form().getMinAge(), request.form().getMaxAge()).boxed().toList(),
                 request.form().getSessionId(),
                 playerDataParser,
