@@ -233,7 +233,7 @@ public class DataFetcher {
                             teamIds.add(teamId);
                         }
                     } else if (mzLiveMode.equals("players")) {
-                        String teamId = String.valueOf(itemNode.get("teamId").asInt());
+                        String teamId = String.valueOf(itemNode.get("team_id").asInt());
                         teamIds.add(teamId);
                     }
                 }
