@@ -3,6 +3,7 @@ package br.com.dv.ntplayersearch.service;
 import br.com.dv.ntplayersearch.model.*;
 import br.com.dv.ntplayersearch.util.PlayerDataParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,6 @@ public class DataFetcher {
     private final String country;
     private final Integer ntid;
     private final Integer cid;
-    private final List<Integer> homeCountryLeagueIds;
     private final List<Integer> ages;
     private final String sessionId;
     private final PlayerDataParser playerDataParser;
@@ -49,7 +49,6 @@ public class DataFetcher {
             String country,
             Integer ntid,
             Integer cid,
-            List<Integer> homeCountryLeagueIds,
             List<Integer> ages,
             String sessionId,
             PlayerDataParser playerDataParser,
@@ -63,7 +62,6 @@ public class DataFetcher {
         this.country = country;
         this.ntid = ntid;
         this.cid = cid;
-        this.homeCountryLeagueIds = homeCountryLeagueIds;
         this.ages = ages;
         this.sessionId = sessionId;
         this.playerDataParser = playerDataParser;
@@ -100,7 +98,9 @@ public class DataFetcher {
     }
 
     private void getTeamIdsFromHomeCountrySeniorLeagues(Set<String> teamIds) {
-        searchService.appendLog(searchId, "Getting own country senior leagues team ids…");
+        searchService.appendLog(searchId, "Getting home country team ids…");
+
+        List<Integer> homeCountryLeagueIds = getHomeCountrySeniorLeagueIdsFromMzLive();
 
         ExecutorService executor = Executors.newFixedThreadPool(threadPoolSize);
 
@@ -131,6 +131,58 @@ public class DataFetcher {
         } catch (InterruptedException e) {
             log.error("Executor was interrupted.", e);
         }
+    }
+
+    private List<Integer> getHomeCountrySeniorLeagueIdsFromMzLive() {
+        List<Integer> leagueIds = new ArrayList<>();
+
+        String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=leagues&country=" + country;
+        String response = webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        JsonNode rootNode;
+        try {
+            rootNode = objectMapper.readTree(response);
+            JsonNode leaguesNode = rootNode.get("leagues");
+            if (leaguesNode.isArray()) {
+                for (JsonNode leagueNode : leaguesNode) {
+                    leagueIds.add(leagueNode.get("id").asInt());
+                }
+            }
+        } catch (JsonProcessingException e) {
+            log.error("Error during JSON processing", e);
+        }
+
+        return leagueIds;
+    }
+
+    private List<String> extractTeamIdsFromXml(String xml) {
+        List<String> teamIds = new ArrayList<>();
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db;
+        try {
+            db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+            doc.getDocumentElement().normalize();
+
+            NodeList nodeList = doc.getElementsByTagName("Team");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    teamIds.add(element.getAttribute("teamId"));
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error while extracting team ids from XML", e);
+        }
+
+        return teamIds;
     }
 
     private void getAdditionalTeamIdsFromTopTeams(Set<String> teamIds, String fileName) {
@@ -230,12 +282,52 @@ public class DataFetcher {
         return playerTeamMap;
     }
 
+    private Map<String, PlayerInfo> extractPlayersFromXml(String xml, String country, List<Integer> ageRange) {
+        Map<String, PlayerInfo> playerTeamMap = new ConcurrentHashMap<>();
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db;
+        try {
+            db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+            doc.getDocumentElement().normalize();
+
+            NodeList nodeList = doc.getElementsByTagName("TeamPlayers");
+
+            for (int i = 0; i < nodeList.getLength(); ++i) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String teamId = element.getAttribute("teamId");
+                    String teamName = element.getAttribute("teamName");
+                    NodeList playerList = element.getElementsByTagName("Player");
+                    for (int j = 0; j < playerList.getLength(); ++j) {
+                        Node playerNode = playerList.item(j);
+                        if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element playerElement = (Element) playerNode;
+                            String countryShortName = playerElement.getAttribute("countryShortname");
+                            int playerAge = Integer.parseInt(playerElement.getAttribute("age"));
+                            if (countryShortName.equalsIgnoreCase(country) && ageRange.contains(playerAge)) {
+                                String playerId = playerElement.getAttribute("id");
+                                PlayerInfo playerInfo = new PlayerInfo(playerId, teamId, teamName);
+                                playerTeamMap.put(playerInfo.playerId(), playerInfo);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error while extracting players from XML", e);
+        }
+
+        return playerTeamMap;
+    }
+
     public void checkPlayer(String pid, PlayerInfo pInfo) {
         String playerSearchUrl = "https://www.managerzone.com/ajax.php?p=nationalTeams&sub=search&ntid=&cid=&type=national_team&pid=&sport=soccer"
                 .replace("ntid=", "ntid=" + ntid)
                 .replace("cid=", "cid=" + cid)
                 .replace("pid=", "pid=" + pid);
-        https://www.managerzone.com/ajax.php?p=nationalTeams&sub=search&ntid=855933&cid=48&type=national_team&pid=220746953&sport=soccer
 
         try {
             String responseBody = webClient.get()
@@ -288,73 +380,6 @@ public class DataFetcher {
                 player.experience(),
                 player.ntPos()
         );
-    }
-
-    private List<String> extractTeamIdsFromXml(String xml) {
-        List<String> teamIds = new ArrayList<>();
-
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db;
-        try {
-            db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-            doc.getDocumentElement().normalize();
-
-            NodeList nodeList = doc.getElementsByTagName("Team");
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = nodeList.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    teamIds.add(element.getAttribute("teamId"));
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error while extracting team ids from XML", e);
-        }
-
-        return teamIds;
-    }
-
-    private Map<String, PlayerInfo> extractPlayersFromXml(String xml, String country, List<Integer> ageRange) {
-        Map<String, PlayerInfo> playerTeamMap = new ConcurrentHashMap<>();
-
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db;
-        try {
-            db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-            doc.getDocumentElement().normalize();
-
-            NodeList nodeList = doc.getElementsByTagName("TeamPlayers");
-
-            for (int i = 0; i < nodeList.getLength(); ++i) {
-                Node node = nodeList.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    String teamId = element.getAttribute("teamId");
-                    String teamName = element.getAttribute("teamName");
-                    NodeList playerList = element.getElementsByTagName("Player");
-                    for (int j = 0; j < playerList.getLength(); ++j) {
-                        Node playerNode = playerList.item(j);
-                        if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
-                            Element playerElement = (Element) playerNode;
-                            String countryShortName = playerElement.getAttribute("countryShortname");
-                            int playerAge = Integer.parseInt(playerElement.getAttribute("age"));
-                            if (countryShortName.equalsIgnoreCase(country) && ageRange.contains(playerAge)) {
-                                String playerId = playerElement.getAttribute("id");
-                                PlayerInfo playerInfo = new PlayerInfo(playerId, teamId, teamName);
-                                playerTeamMap.put(playerInfo.playerId(), playerInfo);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error while extracting players from XML", e);
-        }
-
-        return playerTeamMap;
     }
 
     private boolean isAPlayerThatMeetsTheRequirements(Player player) {
