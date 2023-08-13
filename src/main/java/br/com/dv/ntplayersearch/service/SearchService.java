@@ -1,6 +1,7 @@
 package br.com.dv.ntplayersearch.service;
 
 import br.com.dv.ntplayersearch.model.Player;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class SearchService {
     private final Map<String, List<String>> logMessages = new ConcurrentHashMap<>();
     private final Map<String, List<Player>> searchResults = new ConcurrentHashMap<>();
     private final Map<String, Boolean> searchStatus = new ConcurrentHashMap<>();
+    private final Map<String, Long> creationTimes = new ConcurrentHashMap<>();
 
     public void appendLog(String searchId, String message) {
         logMessages.computeIfAbsent(searchId, k -> new ArrayList<>()).add(message);
@@ -26,6 +28,7 @@ public class SearchService {
 
     public void storeResults(String searchId, List<Player> results) {
         searchResults.put(searchId, results);
+        creationTimes.put(searchId, System.currentTimeMillis());
     }
 
     public List<Player> getResults(String searchId) {
@@ -40,10 +43,19 @@ public class SearchService {
         return searchStatus.getOrDefault(searchId, false);
     }
 
-    public void clearSearchData(String searchId) {
-        logMessages.remove(searchId);
-        searchResults.remove(searchId);
-        searchStatus.remove(searchId);
+    @Scheduled(fixedRate = 3600000)
+    public void clearOldSearchData() {
+        long currentTime = System.currentTimeMillis();
+        creationTimes.entrySet().removeIf(entry -> {
+            if (currentTime - entry.getValue() > 24 * 60 * 60 * 1000) {
+                String searchId = entry.getKey();
+                logMessages.remove(searchId);
+                searchResults.remove(searchId);
+                searchStatus.remove(searchId);
+                return true;
+            }
+            return false;
+        });
     }
 
 }

@@ -92,9 +92,14 @@ public class PlayerDataController {
     @GetMapping("/results/{searchId}")
     public ModelAndView results(@PathVariable String searchId) {
         List<Player> players = searchService.getResults(searchId);
+
+        if (players == null) {
+            return new ModelAndView("errorpage");
+        }
+
         ModelAndView modelAndView = new ModelAndView("results");
         modelAndView.addObject("players", players);
-        searchService.clearSearchData(searchId);
+
         return modelAndView;
     }
 
