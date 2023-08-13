@@ -2,7 +2,7 @@ package br.com.dv.ntplayersearch.service;
 
 import br.com.dv.ntplayersearch.model.Player;
 import br.com.dv.ntplayersearch.model.PlayerInfo;
-import br.com.dv.ntplayersearch.model.PlayerSearchForm;
+import br.com.dv.ntplayersearch.model.PlayerSearchRequest;
 import br.com.dv.ntplayersearch.util.PlayerDataParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -41,17 +41,18 @@ public class PlayerDataService {
         this.searchService = searchService;
     }
 
-    public void getPlayers(PlayerSearchForm form, String searchId) {
+    public void getPlayers(PlayerSearchRequest request, String searchId) {
         searchService.appendLog(searchId, "Starting search");
 
-        PlayerEvaluator playerEvaluator = new PlayerEvaluator(form.getPlayerMinSkills());
+        PlayerEvaluator playerEvaluator = new PlayerEvaluator(request.form().getPlayerMinSkills());
 
         DataFetcher dataFetcher = new DataFetcher(
-                form.getCountryCode(),
-                form.getPlayersTabUrl().replace("sub=players", "sub=search&pid="),
-                form.getSessionId(),
-                IntStream.rangeClosed(form.getInitialLeagueId(), form.getFinalLeagueId()).boxed().toList(),
-                IntStream.rangeClosed(form.getMinAge(), form.getMaxAge()).boxed().toList(),
+                request.form().getCountry(),
+                request.selectedCountry().ntid(),
+                request.selectedCountry().cid(),
+                IntStream.rangeClosed(request.form().getInitialLeagueId(), request.form().getFinalLeagueId()).boxed().toList(),
+                IntStream.rangeClosed(request.form().getMinAge(), request.form().getMaxAge()).boxed().toList(),
+                request.form().getSessionId(),
                 playerDataParser,
                 playerEvaluator,
                 webClient,

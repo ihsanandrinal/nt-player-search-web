@@ -1,8 +1,10 @@
 package br.com.dv.ntplayersearch.controller;
 
+import br.com.dv.ntplayersearch.model.Country;
 import br.com.dv.ntplayersearch.model.Player;
 import br.com.dv.ntplayersearch.model.PlayerSearchForm;
-import br.com.dv.ntplayersearch.service.CountryCodeService;
+import br.com.dv.ntplayersearch.model.PlayerSearchRequest;
+import br.com.dv.ntplayersearch.service.MzCountryService;
 import br.com.dv.ntplayersearch.service.PlayerDataService;
 import br.com.dv.ntplayersearch.service.SearchService;
 import jakarta.validation.Valid;
@@ -24,16 +26,16 @@ import java.util.concurrent.CompletableFuture;
 public class PlayerDataController {
 
     private final PlayerDataService playerDataService;
-    private final CountryCodeService countryCodeService;
+    private final MzCountryService mzCountryService;
     private final SearchService searchService;
 
     public PlayerDataController(
             PlayerDataService playerDataService,
-            CountryCodeService countryCodeService,
+            MzCountryService mzCountryService,
             SearchService searchService
     ) {
         this.playerDataService = playerDataService;
-        this.countryCodeService = countryCodeService;
+        this.mzCountryService = mzCountryService;
         this.searchService = searchService;
     }
 
@@ -49,11 +51,16 @@ public class PlayerDataController {
             return "index";
         }
 
+        Country selectedCountry = mzCountryService.getCountries().stream()
+                .filter(country -> country.code().equals(form.getCountry()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid country code!"));
+
         String searchId = UUID.randomUUID().toString();
 
         CompletableFuture.runAsync(() -> {
             try {
-                playerDataService.getPlayers(form, searchId);
+                playerDataService.getPlayers(new PlayerSearchRequest(form, selectedCountry), searchId);
             } catch (Exception e) {
                 log.error("Error while searching players", e);
             }
@@ -91,9 +98,9 @@ public class PlayerDataController {
         return modelAndView;
     }
 
-    @ModelAttribute("countryCodes")
-    public Map<String, String> getCountryCodes() {
-        return countryCodeService.getCountryCodes();
+    @ModelAttribute("countries")
+    public List<Country> getCountries() {
+        return mzCountryService.getCountries();
     }
 
 }

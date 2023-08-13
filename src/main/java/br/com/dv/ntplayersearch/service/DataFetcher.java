@@ -30,10 +30,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DataFetcher {
 
     private final String country;
-    private final String url;
-    private final String sessionId;
+    private final Integer ntid;
+    private final Integer cid;
     private final List<Integer> homeCountryLeagueIds;
     private final List<Integer> ages;
+    private final String sessionId;
     private final PlayerDataParser playerDataParser;
     private final PlayerEvaluator playerEvaluator;
     private final WebClient webClient;
@@ -46,10 +47,11 @@ public class DataFetcher {
 
     public DataFetcher(
             String country,
-            String url,
-            String sessionId,
+            Integer ntid,
+            Integer cid,
             List<Integer> homeCountryLeagueIds,
             List<Integer> ages,
+            String sessionId,
             PlayerDataParser playerDataParser,
             PlayerEvaluator playerEvaluator,
             WebClient webClient,
@@ -59,10 +61,11 @@ public class DataFetcher {
             SearchService searchService
     ) {
         this.country = country;
-        this.url = url;
-        this.sessionId = sessionId;
+        this.ntid = ntid;
+        this.cid = cid;
         this.homeCountryLeagueIds = homeCountryLeagueIds;
         this.ages = ages;
+        this.sessionId = sessionId;
         this.playerDataParser = playerDataParser;
         this.playerEvaluator = playerEvaluator;
         this.webClient = webClient;
@@ -104,8 +107,6 @@ public class DataFetcher {
         for (Integer leagueId : homeCountryLeagueIds) {
             executor.submit(() -> {
                 try {
-                    searchService.appendLog(searchId, "Getting team ids from league " + leagueId);
-
                     String url = "https://www.managerzone.com/xml/team_league.php?sport_id=1&league_id=" + leagueId;
                     String response = webClient.get()
                             .uri(url)
@@ -230,9 +231,15 @@ public class DataFetcher {
     }
 
     public void checkPlayer(String pid, PlayerInfo pInfo) {
+        String playerSearchUrl = "https://www.managerzone.com/ajax.php?p=nationalTeams&sub=search&ntid=&cid=&type=national_team&pid=&sport=soccer"
+                .replace("ntid=", "ntid=" + ntid)
+                .replace("cid=", "cid=" + cid)
+                .replace("pid=", "pid=" + pid);
+        https://www.managerzone.com/ajax.php?p=nationalTeams&sub=search&ntid=855933&cid=48&type=national_team&pid=220746953&sport=soccer
+
         try {
             String responseBody = webClient.get()
-                    .uri(url.replace("pid=", "pid=" + pid))
+                    .uri(playerSearchUrl)
                     .header("Cookie", "PHPSESSID=" + sessionId)
                     .retrieve()
                     .bodyToMono(String.class)
