@@ -99,17 +99,6 @@
                     <div th:if="${#fields.hasErrors('country')}" th:errors="*{country}" class="error"></div>
                 </div>
                 <div class="form-group">
-                    <label for="initialLeagueId" class="form-label">Initial League ID:</label>
-                    <input type="number" id="initialLeagueId" th:field="*{initialLeagueId}" class="form-control-sm">
-                    <div th:if="${#fields.hasErrors('initialLeagueId')}" th:errors="*{initialLeagueId}"
-                         class="error"></div>
-                </div>
-                <div class="form-group">
-                    <label for="finalLeagueId" class="form-label">Final League ID:</label>
-                    <input type="number" id="finalLeagueId" th:field="*{finalLeagueId}" class="form-control-sm">
-                    <div th:if="${#fields.hasErrors('finalLeagueId')}" th:errors="*{finalLeagueId}" class="error"></div>
-                </div>
-                <div class="form-group">
                     <label for="minAge" class="form-label">Min Age:</label>
                     <select id="minAge" th:field="*{minAge}" class="form-control-sm">
                         <option th:each="age : ${#numbers.sequence(16, 100)}" th:value="${age}"
