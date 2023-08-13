@@ -115,66 +115,79 @@
             <label for="speed" class="form-label">Speed:</label>
             <input type="number" id="speed" th:field="*{playerMinSkills.speed}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.speed}"></div>
         </div>
         <div class="form-group">
             <label for="stamina" class="form-label">Stamina:</label>
             <input type="number" id="stamina" th:field="*{playerMinSkills.stamina}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.stamina}"></div>
         </div>
         <div class="form-group">
             <label for="playIntelligence" class="form-label">Play Intelligence:</label>
             <input type="number" id="playIntelligence" th:field="*{playerMinSkills.playIntelligence}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.playIntelligence}"></div>
         </div>
         <div class="form-group">
             <label for="passing" class="form-label">Passing:</label>
             <input type="number" id="passing" th:field="*{playerMinSkills.passing}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.passing}"></div>
         </div>
         <div class="form-group">
             <label for="shooting" class="form-label">Shooting:</label>
             <input type="number" id="shooting" th:field="*{playerMinSkills.shooting}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.shooting}"></div>
         </div>
         <div class="form-group">
             <label for="heading" class="form-label">Heading:</label>
             <input type="number" id="heading" th:field="*{playerMinSkills.heading}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.heading}"></div>
         </div>
         <div class="form-group">
             <label for="keeping" class="form-label">Keeping:</label>
             <input type="number" id="keeping" th:field="*{playerMinSkills.keeping}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.keeping}"></div>
         </div>
         <div class="form-group">
             <label for="ballControl" class="form-label">Ball Control:</label>
             <input type="number" id="ballControl" th:field="*{playerMinSkills.ballControl}"
-                   class="form-control-sm" min="0" max="10">
+                   class="form-control-sm">
+            <div class="error" th:errors="*{playerMinSkills.ballControl}"></div>
         </div>
         <div class="form-group">
             <label for="tackling" class="form-label">Tackling:</label>
             <input type="number" id="tackling" th:field="*{playerMinSkills.tackling}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.tackling}"></div>
         </div>
         <div class="form-group">
             <label for="aerialPassing" class="form-label">Aerial Passing:</label>
             <input type="number" id="aerialPassing" th:field="*{playerMinSkills.aerialPassing}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.aerialPassing}"></div>
         </div>
         <div class="form-group">
             <label for="setPlays" class="form-label">Set Plays:</label>
             <input type="number" id="setPlays" th:field="*{playerMinSkills.setPlays}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.setPlays}"></div>
         </div>
         <div class="form-group">
             <label for="experience" class="form-label">Experience:</label>
             <input type="number" id="experience" th:field="*{playerMinSkills.experience}"
                    class="form-control-sm" min="0" max="10">
+            <div class="error" th:errors="*{playerMinSkills.experience}"></div>
         </div>
         <div class="form-group">
             <label for="totalBalls" class="form-label">Total Balls:</label>
             <input type="number" id="totalBalls" th:field="*{playerMinSkills.totalBalls}"
                    class="form-control-sm" min="0" max="100">
+            <div class="error" th:errors="*{playerMinSkills.totalBalls}"></div>
         </div>
         <div class="form-group">
             <label for="sessionId" class="form-label">Session ID:</label>
