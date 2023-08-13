@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>404 - Not Found</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+
+        a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Error 404</h1>
+    <p>The page you're looking for has been annihilated.</p>
+    <p>It's gone. Vanished. Obliterated.</p>
+    <p>But don't worry, you can still <a href="/" th:href="@{/}">go back to safety</a>.</p>
+</div>
+</body>
+</html>
