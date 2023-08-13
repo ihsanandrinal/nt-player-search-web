@@ -203,12 +203,13 @@ public class DataFetcher {
         }
     }
 
-    private void getAdditionalTeamIdsFromMzLive(Set<String> teamIds, String ageGroup, String mode) {
-        searchService.appendLog(searchId,
-                "Getting additional team ids from most valuable " + ageGroup + " " + mode + " (MZ Live)…");
+    private void getAdditionalTeamIdsFromMzLive(Set<String> teamIds, String ageGroup, String mzLiveMode) {
+        searchService.appendLog(
+                searchId,
+                "Getting additional team ids from most valuable " + ageGroup + " " + mzLiveMode + " (MZ Live)…"
+        );
 
-        String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=" + mode + "&country=" + country;
-
+        String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=" + mzLiveMode + "&country=" + country;
         if (!ageGroup.equalsIgnoreCase("Senior")) {
             url += "&age=" + ageGroup;
         }
@@ -219,21 +220,23 @@ public class DataFetcher {
                 .bodyToMono(String.class)
                 .block();
 
+        JsonNode rootNode;
         try {
-            if (mode.equals("teams")) {
-                MzLiveTeamsWrapper wrapper = objectMapper.readValue(response, MzLiveTeamsWrapper.class);
-                List<String> additionalTeamIds = wrapper.teams().stream()
-                        .filter(team -> !team.country().equals(country) && !teamIds.contains(String.valueOf(team.id())))
-                        .map(team -> String.valueOf(team.id()))
-                        .toList();
-                teamIds.addAll(additionalTeamIds);
-            } else if (mode.equals("players")) {
-                MzLivePlayersWrapper wrapper = objectMapper.readValue(response, MzLivePlayersWrapper.class);
-                List<String> additionalTeamIds = wrapper.players().stream()
-                        .filter(player -> !teamIds.contains(String.valueOf(player.teamId())))
-                        .map(player -> String.valueOf(player.teamId()))
-                        .toList();
-                teamIds.addAll(additionalTeamIds);
+            rootNode = objectMapper.readTree(response);
+            JsonNode itemsNode = rootNode.get(mzLiveMode.equals("teams") ? "teams" : "players");
+
+            if (itemsNode.isArray()) {
+                for (JsonNode itemNode : itemsNode) {
+                    if (mzLiveMode.equals("teams")) {
+                        String teamId = String.valueOf(itemNode.get("id").asInt());
+                        if (!itemNode.get("country").asText().equals(country)) {
+                            teamIds.add(teamId);
+                        }
+                    } else if (mzLiveMode.equals("players")) {
+                        String teamId = String.valueOf(itemNode.get("teamId").asInt());
+                        teamIds.add(teamId);
+                    }
+                }
             }
         } catch (JsonProcessingException e) {
             log.error("Error while reading team ids from MZ Live", e);
