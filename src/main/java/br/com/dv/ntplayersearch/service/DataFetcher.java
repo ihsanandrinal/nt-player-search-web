@@ -35,8 +35,8 @@ public class DataFetcher {
     private final Integer cid;
     private final List<Integer> ages;
     private final String sessionId;
-    private final PlayerDataParser playerDataParser;
     private final PlayerEvaluator playerEvaluator;
+    private final PlayerDataParser playerDataParser;
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
     private final Integer threadPoolSize;
@@ -51,8 +51,8 @@ public class DataFetcher {
             Integer cid,
             List<Integer> ages,
             String sessionId,
-            PlayerDataParser playerDataParser,
             PlayerEvaluator playerEvaluator,
+            PlayerDataParser playerDataParser,
             WebClient webClient,
             ObjectMapper objectMapper,
             Integer threadPoolSize,
@@ -64,8 +64,8 @@ public class DataFetcher {
         this.cid = cid;
         this.ages = ages;
         this.sessionId = sessionId;
-        this.playerDataParser = playerDataParser;
         this.playerEvaluator = playerEvaluator;
+        this.playerDataParser = playerDataParser;
         this.webClient = webClient;
         this.objectMapper = objectMapper;
         this.threadPoolSize = threadPoolSize;

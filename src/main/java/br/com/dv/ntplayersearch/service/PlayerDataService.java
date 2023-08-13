@@ -44,16 +44,14 @@ public class PlayerDataService {
     public void getPlayers(PlayerSearchRequest request, String searchId) {
         searchService.appendLog(searchId, "Starting search");
 
-        PlayerEvaluator playerEvaluator = new PlayerEvaluator(request.form().getPlayerMinSkills());
-
         DataFetcher dataFetcher = new DataFetcher(
-                request.form().getCountry(),
+                request.selectedCountry().code(),
                 request.selectedCountry().ntid(),
                 request.selectedCountry().cid(),
                 IntStream.rangeClosed(request.form().getMinAge(), request.form().getMaxAge()).boxed().toList(),
                 request.form().getSessionId(),
+                new PlayerEvaluator(request.form().getPlayerMinSkills()),
                 playerDataParser,
-                playerEvaluator,
                 webClient,
                 objectMapper,
                 threadPoolSize,
