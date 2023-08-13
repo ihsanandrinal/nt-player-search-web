@@ -11,12 +11,6 @@ public class PlayerSearchForm {
     @NotBlank(message = "Please select a country.")
     private String country;
 
-    @NotNull(message = "Initial League ID is required.")
-    private Integer initialLeagueId;
-
-    @NotNull(message = "Final League ID is required.")
-    private Integer finalLeagueId;
-
     private Integer minAge;
 
     private Integer maxAge;
