@@ -19,7 +19,7 @@
 
         .player-card {
             box-sizing: border-box;
-            width: 27%;
+            width: 25%;
             background-color: #101522;
             border: 2px solid #ff5733;
             padding: 15px;
@@ -44,18 +44,25 @@
             text-align: center;
         }
 
-        .player-attribute {
+        .player-info {
             display: flex;
             justify-content: space-between;
         }
 
+        .player-attribute {
+            display: flex;
+            justify-content: space-between;
+            max-width: 75%;
+        }
+
         .attribute-label {
-            width: 200px;
+            width: auto;
         }
 
         .attribute-value {
             display: flex;
             align-items: center;
+            justify-content: flex-start;
         }
 
         .attribute-count {
@@ -67,14 +74,6 @@
             height: 12px;
             margin: 0;
             padding: 0;
-        }
-
-        .attribute-label {
-            width: auto;
-        }
-
-        .attribute-value {
-            justify-content: flex-start;
         }
 
         .attribute-label-container {
@@ -114,7 +113,8 @@
                 class="player-title"
                 th:text="${player.name} + ' (' + ${player.playerId} + ')'"
         ></div>
-        <div class="player-attribute">
+        <hr>
+        <div class="player-info">
           <span class="attribute-label-container"
           ><span class="attribute-label">Team:</span></span
           >
@@ -122,7 +122,7 @@
             ><span class="attribute-value" th:text="${player.teamName}"></span
             ></span>
         </div>
-        <div class="player-attribute">
+        <div class="player-info">
           <span class="attribute-label-container"
           ><span class="attribute-label">Age:</span></span
           >
@@ -130,7 +130,7 @@
             ><span class="attribute-value" th:text="${player.age}"></span
             ></span>
         </div>
-        <div class="player-attribute">
+        <div class="player-info">
           <span class="attribute-label-container"
           ><span class="attribute-label">Value:</span></span
           >
@@ -141,7 +141,7 @@
             ></span
             ></span>
         </div>
-        <div class="player-attribute">
+        <div class="player-info">
           <span class="attribute-label-container"
           ><span class="attribute-label">Total Balls:</span></span
           >
