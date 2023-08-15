@@ -45,11 +45,9 @@ public class PlayerDataService {
         searchService.appendLog(searchId, "Starting search");
 
         DataFetcher dataFetcher = new DataFetcher(
-                request.selectedCountry().code(),
-                request.selectedCountry().ntid(),
-                request.selectedCountry().cid(),
-                IntStream.rangeClosed(request.form().getMinAge(), request.form().getMaxAge()).boxed().toList(),
+                request.selectedCountry(),
                 request.form().getSessionId(),
+                IntStream.rangeClosed(request.form().getMinAge(), request.form().getMaxAge()).boxed().toList(),
                 new PlayerEvaluator(request.form().getPlayerMinSkills()),
                 playerDataParser,
                 webClient,

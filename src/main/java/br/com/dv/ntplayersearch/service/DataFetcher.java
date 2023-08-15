@@ -30,11 +30,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Data
 public class DataFetcher {
 
-    private final String country;
-    private final Integer ntid;
-    private final Integer cid;
-    private final List<Integer> ages;
+    private final Country countryObj;
     private final String sessionId;
+    private final List<Integer> ages;
     private final PlayerEvaluator playerEvaluator;
     private final PlayerDataParser playerDataParser;
     private final WebClient webClient;
@@ -46,11 +44,9 @@ public class DataFetcher {
     private final SearchService searchService;
 
     public DataFetcher(
-            String country,
-            Integer ntid,
-            Integer cid,
-            List<Integer> ages,
+            Country countryObj,
             String sessionId,
+            List<Integer> ages,
             PlayerEvaluator playerEvaluator,
             PlayerDataParser playerDataParser,
             WebClient webClient,
@@ -59,11 +55,9 @@ public class DataFetcher {
             String searchId,
             SearchService searchService
     ) {
-        this.country = country;
-        this.ntid = ntid;
-        this.cid = cid;
-        this.ages = ages;
+        this.countryObj = countryObj;
         this.sessionId = sessionId;
+        this.ages = ages;
         this.playerEvaluator = playerEvaluator;
         this.playerDataParser = playerDataParser;
         this.webClient = webClient;
@@ -136,7 +130,7 @@ public class DataFetcher {
     private List<Integer> getHomeCountrySeniorLeagueIdsFromMzLive() {
         List<Integer> leagueIds = new ArrayList<>();
 
-        String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=leagues&country=" + country;
+        String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=leagues&country=" + countryObj.code();
         String response = webClient.get()
                 .uri(url)
                 .retrieve()
@@ -209,7 +203,7 @@ public class DataFetcher {
                 "Getting additional team ids from most valuable " + ageGroup + " " + mzLiveMode + " (MZ Live)…"
         );
 
-        String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=" + mzLiveMode + "&country=" + country;
+        String url = "https://mzlive.eu/mzlive.php?action=list&type=top100&mode=" + mzLiveMode + "&country=" + countryObj.code();
         if (!ageGroup.equalsIgnoreCase("Senior")) {
             url += "&age=" + ageGroup;
         }
@@ -229,7 +223,7 @@ public class DataFetcher {
                 for (JsonNode itemNode : itemsNode) {
                     if (mzLiveMode.equals("teams")) {
                         String teamId = String.valueOf(itemNode.get("id").asInt());
-                        if (!itemNode.get("country").asText().equals(country)) {
+                        if (!itemNode.get("country").asText().equals(countryObj.code())) {
                             teamIds.add(teamId);
                         }
                     } else if (mzLiveMode.equals("players")) {
@@ -262,7 +256,7 @@ public class DataFetcher {
                             .bodyToMono(String.class)
                             .block();
 
-                    Map<String, PlayerInfo> teamPlayers = extractPlayersFromXml(xmlContent, country, ages);
+                    Map<String, PlayerInfo> teamPlayers = extractPlayersFromXml(xmlContent, countryObj.code(), ages);
                     playerTeamMap.putAll(teamPlayers);
                 } catch (Exception e) {
                     log.error("Error while getting players for team " + teamId, e);
@@ -328,8 +322,8 @@ public class DataFetcher {
 
     public void checkPlayer(String pid, PlayerInfo pInfo) {
         String playerSearchUrl = "https://www.managerzone.com/ajax.php?p=nationalTeams&sub=search&ntid=&cid=&type=national_team&pid=&sport=soccer"
-                .replace("ntid=", "ntid=" + ntid)
-                .replace("cid=", "cid=" + cid)
+                .replace("ntid=", "ntid=" + countryObj.ntid())
+                .replace("cid=", "cid=" + countryObj.cid())
                 .replace("pid=", "pid=" + pid);
 
         try {
