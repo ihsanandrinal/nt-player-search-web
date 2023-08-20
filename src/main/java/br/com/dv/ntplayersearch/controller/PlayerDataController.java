@@ -12,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -72,18 +73,6 @@ public class PlayerDataController {
     public String progress(@PathVariable String searchId, Model model) {
         model.addAttribute("searchId", searchId);
         return "progress";
-    }
-
-    @GetMapping("/logs/{searchId}")
-    @ResponseBody
-    public String logs(@PathVariable String searchId) {
-        return searchService.getLogs(searchId);
-    }
-
-    @GetMapping("/status/{searchId}")
-    @ResponseBody
-    public Map<String, Boolean> status(@PathVariable String searchId) {
-        return Collections.singletonMap("isComplete", searchService.isSearchComplete(searchId));
     }
 
     @GetMapping("/results/{searchId}")
