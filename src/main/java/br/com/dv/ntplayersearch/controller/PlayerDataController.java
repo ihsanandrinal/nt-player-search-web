@@ -6,7 +6,9 @@ import br.com.dv.ntplayersearch.model.PlayerSearchForm;
 import br.com.dv.ntplayersearch.model.PlayerSearchRequest;
 import br.com.dv.ntplayersearch.service.MzCountryService;
 import br.com.dv.ntplayersearch.service.PlayerDataService;
+import br.com.dv.ntplayersearch.service.RateLimiterService;
 import br.com.dv.ntplayersearch.service.SearchService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,15 +30,18 @@ public class PlayerDataController {
     private final PlayerDataService playerDataService;
     private final MzCountryService mzCountryService;
     private final SearchService searchService;
+    private final RateLimiterService rateLimiterService;
 
     public PlayerDataController(
             PlayerDataService playerDataService,
             MzCountryService mzCountryService,
-            SearchService searchService
+            SearchService searchService,
+            RateLimiterService rateLimiterService
     ) {
         this.playerDataService = playerDataService;
         this.mzCountryService = mzCountryService;
         this.searchService = searchService;
+        this.rateLimiterService = rateLimiterService;
     }
 
     @GetMapping("/")
@@ -46,9 +51,17 @@ public class PlayerDataController {
     }
 
     @PostMapping("/search")
-    public String search(@Valid @ModelAttribute("form") PlayerSearchForm form, BindingResult bindingResult) {
+    public String search(
+            @Valid @ModelAttribute("form") PlayerSearchForm form,
+            BindingResult bindingResult,
+            HttpServletRequest request
+    ) {
         if (bindingResult.hasErrors()) {
             return "index";
+        }
+
+        if (!rateLimiterService.isAllowed(request.getRemoteAddr())) {
+            return "ratelimitexceeded";
         }
 
         Country selectedCountry = mzCountryService.getCountries().stream()
@@ -78,10 +91,13 @@ public class PlayerDataController {
     @GetMapping("/results/{searchId}")
     public String results(@PathVariable String searchId, Model model) {
         List<Player> players = searchService.getResults(searchId);
+
         if (players == null) {
             return "errorpage";
         }
+
         model.addAttribute("players", players);
+
         return "results";
     }
 
