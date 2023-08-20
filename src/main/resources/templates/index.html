@@ -57,7 +57,6 @@
         .footer-text {
             color: yellow;
             font-size: 10px;
-            font-style: italic;
         }
 
         .form-label {
@@ -81,7 +80,8 @@
 </head>
 <body>
 <div class="container">
-    <h2 class="text-center mb-5">MZ NT Player Search</h2>
+    <h2 class="text-center">NT Player Search</h2>
+    <h6 class="text-center mb-5">Search for players with specific minimum attributes</h6>
     <form action="#" th:action="@{/search}" th:object="${form}" method="post">
         <div class="form-group">
             <label for="country" class="form-label">Country:</label>
@@ -193,8 +193,8 @@
             <button type="submit" class="btn btn-secondary">Search</button>
         </div>
         <footer class="mt-5">
-            <a href="https://www.managerzone.com/?p=profile&uid=8623925" class="footer-text">
-                (Feel free to contact me if you have any questions or suggestions)
+            <a href="https://www.youtube.com/watch?v=FFMqvb01rIw" class="footer-text">
+                How to use
             </a>
         </footer>
     </form>
