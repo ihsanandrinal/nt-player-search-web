@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
@@ -70,10 +69,9 @@ public class PlayerDataController {
     }
 
     @GetMapping("/progress/{searchId}")
-    public ModelAndView progress(@PathVariable String searchId, ModelAndView modelAndView) {
-        modelAndView.addObject("searchId", searchId);
-        modelAndView.setViewName("progress");
-        return modelAndView;
+    public String progress(@PathVariable String searchId, Model model) {
+        model.addAttribute("searchId", searchId);
+        return "progress";
     }
 
     @GetMapping("/logs/{searchId}")
@@ -89,17 +87,13 @@ public class PlayerDataController {
     }
 
     @GetMapping("/results/{searchId}")
-    public ModelAndView results(@PathVariable String searchId) {
+    public String results(@PathVariable String searchId, Model model) {
         List<Player> players = searchService.getResults(searchId);
-
         if (players == null) {
-            return new ModelAndView("errorpage");
+            return "errorpage";
         }
-
-        ModelAndView modelAndView = new ModelAndView("results");
-        modelAndView.addObject("players", players);
-
-        return modelAndView;
+        model.addAttribute("players", players);
+        return "results";
     }
 
     @ModelAttribute("countries")
