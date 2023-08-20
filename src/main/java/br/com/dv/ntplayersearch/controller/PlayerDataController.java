@@ -70,7 +70,6 @@ public class PlayerDataController {
     }
 
     @GetMapping("/progress/{searchId}")
-    @ResponseBody
     public ModelAndView progress(@PathVariable String searchId, ModelAndView modelAndView) {
         modelAndView.addObject("searchId", searchId);
         modelAndView.setViewName("progress");
